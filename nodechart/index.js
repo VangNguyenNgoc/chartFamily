@@ -56,44 +56,44 @@ app.use(express.json());
 
 //route
 route(app);
-var user = [];
-io.on("connection", function (socket) {
-  socket.on("message", function (userId) {
-    user[userId] = socket.id;
-    console.log("socket", socket.id);
-  });
-  socket.on("sendMessage", async function (data) {
-    console.log("data", data);
-    PersonModel.find({ idAccount: data.userSend }).exec(function (
-      err,
-      personReceive
-    ) {
-      console.log("personReceive", personReceive);
-      if (personReceive != null) {
-        if (personReceive.length > 0) {
-          PersonModel.find({ _id: data.userReceive }).exec(function (
-            err,
-            personSend
-          ) {
-            if (personSend.length > 0) {
-              var avatar = personReceive.image;
-              var messageReceived =
-                personReceive.name + " invite you join family.";
-              io.to(socket.id).emit("messageReceived", {
-                messageReceived,
-                avatar,
-              });
-            }
-          });
-        }
-      }
-    });
-  });
+// var user = [];
+// io.on("connection", function (socket) {
+//   socket.on("message", function (userId) {
+//     user[userId] = socket.id;
+//     console.log("socket", socket.id);
+//   });
+//   socket.on("sendMessage", async function (data) {
+//     console.log("data", data);
+//     PersonModel.find({ idAccount: data.userSend }).exec(function (
+//       err,
+//       personReceive
+//     ) {
+//       console.log("personReceive", personReceive);
+//       if (personReceive != null) {
+//         if (personReceive.length > 0) {
+//           PersonModel.find({ _id: data.userReceive }).exec(function (
+//             err,
+//             personSend
+//           ) {
+//             if (personSend.length > 0) {
+//               var avatar = personReceive.image;
+//               var messageReceived =
+//                 personReceive.name + " invite you join family.";
+//               io.to(socket.id).emit("messageReceived", {
+//                 messageReceived,
+//                 avatar,
+//               });
+//             }
+//           });
+//         }
+//       }
+//     });
+//   });
 
-  // socket.to(socket.id).emit("messageReceive", (data) => {
-  //   console.log("person 1", person);
-  // });
-});
+//   // socket.to(socket.id).emit("messageReceive", (data) => {
+//   //   console.log("person 1", person);
+//   // });
+// });
 
 server.listen(port, (request, respond) => {
   console.log(`Our server is live on ${port}. Yay!`);

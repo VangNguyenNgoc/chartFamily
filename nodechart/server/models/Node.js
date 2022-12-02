@@ -25,14 +25,19 @@ const nodeSchema = new Schema({
   idNumber: {
     type: Number,
   },
+  //lưu thông tin gia đình (group con) gồm cha, mẹ , con -> đây là lưu thông tin phía con
+  idFamily: {
+    type: Number,
+  },
   //lưu thông tin ngang hàng, vợ-chồng
   idCouple: [
     {
       id: {
         type: Schema.Types.ObjectId,
         ref: "node",
-        // default: "",
       },
+      //lưu thông tin gia đình (group con) gồm cha, mẹ , con -> đây là lưu thông tin phía cha mẹ
+      idFamily: { type: Number },
       status: { type: Boolean },
     },
   ],

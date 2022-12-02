@@ -5,36 +5,48 @@ const {
   get_list_id_children,
   get_all_list_children,
 } = require("../utils/findParent");
+const { swap2Varible } = require("../utils/serviceNumber");
 const Person = require("../models/Person");
 class NodeController {
   async addNodeChildren(req, res) {
-    const nodeid = await Node.findOne({ _id: req.body.parent }).then(
-      async (nodeid) => {
-        console.log("nodeid", nodeid);
-        const node = await Node.updateOne(
-          { idPerson: req.params.id },
-          {
-            $set: {
-              parent: req.body.parent,
-              idNumber: res.locals.idNumber,
-              level: nodeid.level + 1,
-            },
-          }
-        ).exec(function (err, node) {
-          if (err) {
-            console.log("update thất bại", err);
-            res
-              .status(500)
-              .json({ success: false, message: "add node children fail!" });
-          }
-          console.log("update thành công", node);
-          res.status(200).json({
-            success: true,
-            message: "add node children successfully!",
-          });
-        });
+    let { parent, mother } = req.body;
+    const nodeid = await Node.findOne({ _id: req.body.parent }).exec();
+    console.log("nodeid", nodeid);
+    await Promise.all([
+      Node.findOne({ _id: req.body.parent }).populate("idPerson"),
+      Node.findOne({ _id: req.body.mother }).populate("idPerson"),
+    ]).then(async ([nodeParent, nodeMother]) => {
+      let level = nodeParent.level;
+      if (nodeParent.idPerson.gender == "Female") {
+        parent = swap2Varible(mother, parent)[0];
+        mother = swap2Varible(mother, parent)[1];
+        level = nodeMother.level;
       }
-    );
+
+      const node = await Node.updateOne(
+        { idPerson: req.params.id },
+        {
+          $set: {
+            parent,
+            mother,
+            idNumber: res.locals.idNumber,
+            level: level + 1,
+          },
+        }
+      ).exec(function (err, node) {
+        if (err) {
+          console.log("update thất bại", err);
+          res
+            .status(500)
+            .json({ success: false, message: "add node children fail!" });
+        }
+        console.log("update thành công", node);
+        res.status(200).json({
+          success: true,
+          message: "add node children successfully!",
+        });
+      });
+    });
   }
 
   deleteNode(req, res) {
@@ -103,7 +115,6 @@ class NodeController {
         console.log("err", err);
       });
   }
-
 }
 
 module.exports = new NodeController();

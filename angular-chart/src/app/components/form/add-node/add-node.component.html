@@ -1,0 +1,14 @@
+<form>
+  <mat-form-field>
+    <mat-label>Add node</mat-label>
+    <input matInput [matAutocomplete]="auto" [formControl]="inputAddNode" />
+    <mat-autocomplete #auto (optionSelected)="optionSelectedNode($event)">
+      <mat-option *ngFor="let item of filteredData" [value]="item._id">
+        <img src="{{ item.image }}" alt="" height="32" />
+        &nbsp;&nbsp;{{ item.name }} - {{ item.birthday | date: "YYYY" }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <!-- <button (click)="checkDataNode($event)" [disabled]="!idData">Check</button> -->
+  <button class="btn btn-info" (click)="submitAddNode($event)">Add</button>
+</form>

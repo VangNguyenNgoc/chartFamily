@@ -1,0 +1,110 @@
+<mat-card>
+  <mat-card-content>
+    <input
+      type="checkbox"
+      name=""
+      id="checkHidden"
+      checked
+      hidden
+      (click)="close()"
+    />
+    <label for="checkHidden" class="bgHidden"></label>
+    <div class="bgForm">
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+        (click)="close()"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div *ngIf="errorMsg" class="alert alert-danger fade show" role="alert">
+        <strong>{{ errorMsg }}</strong>
+      </div>
+      <mat-card-title>Register</mat-card-title>
+
+      <form [formGroup]="formAdd" class="formAdd" enctype="multipart/form-data">
+        <div class="formItem">
+          <label for="formAdd-name" class="formLabel">Name: </label>
+          <mat-form-field>
+            <input
+              id="formAdd-name"
+              type="text"
+              matInput
+              formControlName="name"
+              placeholder="Enter Full name"
+            />
+          </mat-form-field>
+        </div>
+        <div class="formItem">
+          <label for="formAdd-username" class="formLabel">Username: </label>
+          <mat-form-field>
+            <input
+              id="formAdd-username"
+              type="text"
+              matInput
+              formControlName="username"
+              placeholder="Enter username"
+            />
+          </mat-form-field>
+        </div>
+
+        <div class="formItem">
+          <label for="formAdd-password" class="formLabel">Password: </label>
+          <mat-form-field>
+            <input
+              id="formAdd-password"
+              type="password"
+              matInput
+              formControlName="password"
+              class="form-control"
+              placeholder="Enter password"
+            />
+          </mat-form-field>
+        </div>
+        <label class="formRadio">Gender: </label>
+        <mat-radio-group
+          aria-label="Select gender"
+          [(ngModel)]="radioSelect"
+          formControlName="gender"
+        >
+          <mat-radio-button
+            class="radioCSS"
+            *ngFor="let valueRadio of listValueRadio"
+            [value]="valueRadio"
+            (change)="onRadioChange($event)"
+            >{{ valueRadio }}</mat-radio-button
+          >
+        </mat-radio-group>
+        <label for="formAdd-image" class="formLabel">Image: </label>
+        <input
+          #formAddImage
+          type="file"
+          class="form-control"
+          name="formAddImage"
+          (change)="selectImage($event)"
+        />
+        <div class="formDate">
+          <label for="formAdd-birthday" class="labelDate">Birthday: </label>
+          <input
+            id="formAdd-birthday"
+            type="date"
+            formControlName="birthday"
+            class="form-control-date"
+          />
+
+          <label for="formAdd-deathday" class="labelDate">Deathday: </label>
+          <input
+            id="formAdd-deathday"
+            type="date"
+            formControlName="deathday"
+            class="form-control-date"
+          />
+        </div>
+
+        <button (click)="add()" class="btnAdd">Add</button>
+      </form>
+    </div>
+  </mat-card-content>
+</mat-card>

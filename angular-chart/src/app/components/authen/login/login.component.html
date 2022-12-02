@@ -1,0 +1,35 @@
+<div>
+  <mat-card>
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-content>
+      <div *ngIf="errorMsg" class="alert alert-danger fade show" role="alert">
+        <strong>{{ errorMsg }}</strong>
+      </div>
+      <form [formGroup]="formLogin" (ngSubmit)="login()">
+        <mat-form-field>
+          <input
+            type="text"
+            matInput
+            placeholder="username"
+            formControlName="username"
+          />
+        </mat-form-field>
+
+        <mat-form-field>
+          <input
+            type="password"
+            matInput
+            placeholder="Password"
+            formControlName="password"
+          />
+        </mat-form-field>
+
+        <div class="button">
+          <button mat-button type="submit" [disabled]="!formLogin.valid">
+            Login
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

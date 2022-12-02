@@ -1,0 +1,27 @@
+/* .appOrgChart {
+  pointer-events: none;
+} */
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: aqua;
+}
+
+img {
+  height: 100%;
+}
+.dropdown-menu-right {
+  right: 0;
+  left: auto;
+  overflow-y: auto;
+}
+.item-dropdown {
+  min-height: 40px;
+  width: 100%;
+  padding: 4px;
+  border: 1px solid rgb(212, 202, 202);
+  border-radius: 3px;
+  display: flex;
+  font-size: 12px;
+}

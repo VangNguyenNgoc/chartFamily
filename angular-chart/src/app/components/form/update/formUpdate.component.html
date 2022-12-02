@@ -1,0 +1,74 @@
+<input type="checkbox" id="checkHidden" checked hidden (click)="close()" />
+<label for="checkHidden" class="bgHidden"></label>
+<div class="bgForm">
+  <button
+    type="button"
+    class="close"
+    data-dismiss="alert"
+    aria-label="Close"
+    (click)="close()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <div *ngIf="errorMsg" class="alert alert-warning fade show" role="alert">
+    <strong>{{ errorMsg }}</strong>
+  </div>
+  <form
+    [formGroup]="formUpdate"
+    class="formAdd"
+    #f="ngForm"
+    enctype="multipart/form-data"
+  >
+    <div class="avatar" style="text-align: center">
+      <img src="{{ personUpdate.image }}" alt="" width="150" height="150" />
+      <input
+        #formUpdateImage
+        type="file"
+        name="formUpdateImage"
+        formControlName="image"
+        (change)="selectImage($event)"
+      />
+    </div>
+    <label for="formUpdate-name">Name: </label>
+    <input
+      id="formUpdate-name"
+      type="text"
+      formControlName="name"
+      class="form-control"
+      placeholder="Enter Full name"
+      [(ngModel)]="personUpdate.name"
+    />
+    <mat-form-field appearance="fill">
+      <mat-label>Select node parent: </mat-label>
+      <mat-select
+        formControlName="mySelect"
+        #select
+        (ngModelChange)="selectChange(select.value)"
+      >
+        <mat-option *ngFor="let data of listData" [value]="data._id">
+          <img [src]="data.image" alt="" width="20px" height="20px" />
+          {{ data.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <label for="formUpdate-birthday">Birthday: </label>
+    <input
+      id="formUpdate-birthday"
+      type="date"
+      formControlName="birthday"
+      class="form-control-date"
+      [ngModel]="personUpdate.birthday | date: 'yyyy-MM-dd'"
+    />
+
+    <label for="formUpdate-deathday">Deathday: </label>
+    <input
+      id="formUpdate-deathday"
+      type="date"
+      formControlName="deathday"
+      class="form-control-date"
+      [ngModel]="personUpdate.deathday | date: 'yyyy-MM-dd'"
+    />
+
+    <button (click)="update()" class="btn btnAdd">Update</button>
+  </form>
+</div>
